@@ -6,3 +6,8 @@ JAP:
     database: java_ai_practiceroom
     username: root
     password: 123456
+minio:
+    endpoint: http://192.168.100.128:9000
+    accessKey: minioadmin
+    secretKey: minioadmin
+    bucketName: java-ai-practiceroom

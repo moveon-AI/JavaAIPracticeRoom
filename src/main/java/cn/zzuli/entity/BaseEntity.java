@@ -26,6 +26,7 @@ public class BaseEntity implements Serializable {
     //@JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss" ,timezone = "GMT+8")
     @Schema(description = "修改时间")
     @TableField(fill = FieldFill.UPDATE)
+    @JsonIgnore
     private Date updateTime;
 
     @Schema(description = "逻辑删除")
