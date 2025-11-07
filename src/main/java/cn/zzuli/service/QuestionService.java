@@ -1,6 +1,8 @@
 package cn.zzuli.service;
 
 import cn.zzuli.entity.Question;
+import cn.zzuli.vo.QuestionPageVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -25,10 +27,48 @@ import java.util.List;
  * - 开闭原则：通过接口定义，便于扩展新的实现
  * - 依赖倒置：Controller依赖接口而不是具体实现
  * 
- * @author 智能学习平台开发团队
+ * @author xtc
  * @version 1.0
  */
 public interface QuestionService extends IService<Question> {
 
 
-} 
+    /**
+     * 自定义分页查询
+     * @param pageBean
+     * @param questionPageVo
+     */
+    void customPageService(Page<Question> pageBean, QuestionPageVo questionPageVo);
+
+    /**
+     * 根据id查询题目
+     * @param id
+     * @return
+     */
+    Question queryQuestionById(Long id);
+
+    /**
+     * 保存题目
+     * @param question
+     */
+    void customSaveQuestion(Question question);
+
+    /**
+     * 修改题目
+     * @param question
+     */
+    void customUpdateQuestion(Question question);
+
+    /**
+     * 删除题目
+     * @param id
+     */
+    void customRemoveQuestionById(Long id);
+
+    /**
+     * 获取热门题目
+     * @param size
+     * @return
+     */
+    List<Question> customFindPopularQuestions(Integer size);
+}

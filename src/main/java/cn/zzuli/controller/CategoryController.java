@@ -6,6 +6,7 @@ import cn.zzuli.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ import java.util.List;
  * 分类控制器 - 处理题目分类管理相关的HTTP请求
  * 包括分类的增删改查、树形结构展示等功能
  */
+@Slf4j
+@CrossOrigin("*") // 允许跨域访问
 @RestController  // REST控制器，返回JSON数据
 @RequestMapping("/api/categories")  // 分类API路径前缀
 @Tag(name = "分类管理", description = "题目分类相关操作，包括分类的增删改查、树形结构管理等功能")  // Swagger API分组
@@ -31,8 +34,10 @@ public class CategoryController {
     @Operation(summary = "获取分类列表", description = "获取所有题目分类列表，包含每个分类下的题目数量统计")  // API描述
     public Result<List<Category>> getCategories() {
 
-        List<Category> categories = categoryService.getCategories();
-        return Result.success(null);
+        // 调用Service层获取处理后的数据
+        List<Category> allCategories = categoryService.getAllCategories();
+        // 封装成统一响应格式返回
+        return Result.success(allCategories);
     }
 
     /**
@@ -42,7 +47,8 @@ public class CategoryController {
     @GetMapping("/tree")  // 处理GET请求
     @Operation(summary = "获取分类树形结构", description = "获取题目分类的树形层级结构，用于前端树形组件展示")  // API描述
     public Result<List<Category>> getCategoryTree() {
-        return Result.success(null);
+        List<Category> categoryTreeList = categoryService.getCategoryTree();
+        return Result.success(categoryTreeList);
     }
 
     /**
@@ -53,6 +59,8 @@ public class CategoryController {
     @PostMapping  // 处理POST请求
     @Operation(summary = "添加新分类", description = "创建新的题目分类，支持设置父分类实现层级结构")  // API描述
     public Result<Void> addCategory(@RequestBody Category category) {
+        log.info("添加分类：{}", category);
+        categoryService.saveCategory(category);
         return Result.success(null);
     }
 
@@ -64,6 +72,8 @@ public class CategoryController {
     @PutMapping  // 处理PUT请求
     @Operation(summary = "更新分类信息", description = "修改分类的名称、描述、排序等信息")  // API描述
     public Result<Void> updateCategory(@RequestBody Category category) {
+        log.info("更新分类：{}", category);
+        categoryService.updateCategory(category);
         return Result.success(null);
     }
 
@@ -76,6 +86,8 @@ public class CategoryController {
     @Operation(summary = "删除分类", description = "删除指定的题目分类，注意：删除前需确保分类下没有题目")  // API描述
     public Result<Void> deleteCategory(
             @Parameter(description = "分类ID") @PathVariable Long id) {
+        log.info("删除分类：{}", id);
+        categoryService.deleteCategory(id);
         return Result.success(null);
     }
 } 
