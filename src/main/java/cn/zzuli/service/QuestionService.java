@@ -1,10 +1,13 @@
 package cn.zzuli.service;
 
 import cn.zzuli.entity.Question;
+import cn.zzuli.vo.QuestionImportVo;
 import cn.zzuli.vo.QuestionPageVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -71,4 +74,17 @@ public interface QuestionService extends IService<Question> {
      * @return
      */
     List<Question> customFindPopularQuestions(Integer size);
+
+    /**
+     * 预览Excel文件内容（不入库）
+     * @param file
+     * @return
+     */
+    List<QuestionImportVo> preViewExcel(MultipartFile file) throws IOException;
+
+    /**
+     * 从Excel文件批量导入题目
+     * @return
+     */
+    int importBatchQuestions(List<QuestionImportVo> questions);
 }
