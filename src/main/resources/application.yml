@@ -49,6 +49,9 @@ minio:
 logging:
   level:
     root: info
+  charset:
+    console: UTF-8
+    file: UTF-8
 
 # AI 服务配置
 kimi:
